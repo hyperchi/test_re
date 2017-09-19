@@ -9,6 +9,8 @@ import requests
 import json
 import traceback
 import pdb
+import codecs
+
 
 # user defined packages
 import get_cookies
@@ -25,20 +27,32 @@ class Content(object):
 
 class Weibo(object):
     def __init__(self, user_id, filter=0, cookie=None):
+
         # setting cookie is superrrr important!!! otherwise cannot connect
         self.cookie = cookie
+        self.owner = None
         self.user_id = user_id
         self.filter = filter
         self.total_weibo_count = 0
         self.following = 0
         self.follower = 0
         self.contents = []
-    def get_username(self):
+        self.soup = None
+        self.__html = None
+        self._get_html()
+
+    def _get_html(self):
         url = "http://weibo.com/u/%d"%(self.user_id)
-        html = requests.get(url, cookies=self.cookie).content
-        print html
+        response = requests.get(url, cookies=self.cookie)
+        if response.status_code == requests.codes.ok:
+            self.__html = response.content
+            print self.__html
+            self.soup = BeautifulSoup(self.__html, 'html.parser')
+        else:
+            print "Failed on getting html..."
 
-
+    def get_username(self):
+        self.owner = self.soup.title.string
 
 
 def main():
