@@ -21,6 +21,3 @@ path = os.path.abspath(".")
 with codecs.open(path + "/settings/user.json", "r", "utf8") as f:
     accounts = json.loads(f.read())
 
-import pdb
-pdb.set_trace()
-print(1)
