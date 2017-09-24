@@ -1,3 +1,17 @@
+## make sure user.json exist under settings foler
+```
+[
+   {
+         "id": "a",
+         "password": "b"
+   },
+   {
+         "id": "c",
+         "password": "d"
+   }
+ ]
+```
+
 ```
 # -h see helps
 python3 main.py -h
