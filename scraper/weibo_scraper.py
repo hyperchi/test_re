@@ -6,11 +6,13 @@ import os
 import requests
 from lxml import etree
 import traceback
-from pprint import pprint
-from settings.config import COOKIES_SAVE_PATH
 import pickle
 import time
+import random
+
+# user defined packages
 from utils.string import is_number
+from settings.config import COOKIES_SAVE_PATH
 
 
 class WeiBoScraper(object):
@@ -148,8 +150,9 @@ class WeiBoScraper(object):
                     print('---- current solving page {}'.format(page))
 
                     if page % 10 == 0:
-                        print('[ATTEMPTING] rest for 5 minutes to cheat weibo site, avoid being banned.')
-                        time.sleep(60*5)
+                        elapse = random.randint(60, 300)
+                        print('[ATTEMPTING] rest for a random {} minutes to cheat weibo site, avoid being banned.'.format(elapse / 60))
+                        time.sleep(elapse)
 
                     if len(info) > 3:
                         for i in range(0, len(info) - 2):
@@ -214,8 +217,11 @@ class WeiBoScraper(object):
                 for page in range(int(all_comment_pages) - 2):
 
                     if page % 10 == 0:
-                        print('[ATTEMPTING] rest for 5 minutes to cheat weibo site, avoid being banned.')
-                        time.sleep(60*5)
+                        elapse = random.randint(60, 300)
+                        print('[ATTEMPTING] rest for a random {} minutes to cheat weibo site, avoid being banned.'.format(elapse/60))
+                        print("RANDOM SLEEP between 1 - 5 minutes")
+
+                        time.sleep(elapse)
 
                     # we crawl from page 2, cause front pages have some noise
                     detail_comment_url = url + '&page=' + str(page + 2)
