@@ -9,6 +9,7 @@ import traceback
 import pickle
 import time
 import random
+import codecs
 
 # user defined packages
 from utils.string import is_number
@@ -66,14 +67,15 @@ class WeiBoScraper(object):
         print('headers: ', headers)
         self.headers = headers
 
-    def crawl(self):
+    def crawl(self, parse_comments=False):
         # this is the most time-cost part, we have to catch errors, return to dispatch center
         try:
             self._get_html()
             self._get_user_name()
             self._get_user_info()
             self._get_weibo_info()
-            self._get_weibo_detail_comment()
+            if parse_comments:
+                self._get_weibo_detail_comment()
             print('weibo scrap done!')
             print('-' * 30)
             return True
@@ -189,6 +191,8 @@ class WeiBoScraper(object):
                 print('共' + str(self.weibo_num) + '条微博，其中' + str(self.weibo_scraped) + '条为原创微博')
         except IndexError as e:
             print('get weibo info done, current user {} has no weibo yet.'.format(self.user_id))
+        with codecs.open(self.user_id, "w", "utf8") as f:
+            f.write("\n".join(self.weibo_content))
 
     def _get_weibo_detail_comment(self):
         """
